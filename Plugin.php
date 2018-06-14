@@ -100,8 +100,8 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
                     'https://api.github.com/repos/fuzqing/WeChatShare/releases/latest',
                     function (data) {
                         if (checkUpdater('<?php _e(self::_VERSION);?>', data.tag_name)) {
-							 $('#update_txt').html('当前版本：<?php _e(self::_VERSION);?>，检测到有 v'+data.tag_name+' 最新版本，请更新！');
-							$('#update_notice').html('<button href="#" class="bttn-slant bttn-md bttn-primary" zipball_url="' + data.zipball_url + '" onClick="updatePlugin();" id="update-plugin">立即更新</button><hr>');
+			    $('#update_txt').html('当前版本：<?php _e(self::_VERSION);?>，检测到有 v'+data.tag_name+' 最新版本，请更新！');
+			    $('#update_notice').html('<button class="bttn-slant bttn-md bttn-primary" zipball_url="' + data.zipball_url + '" onClick="updatePlugin();" id="update-plugin">立即更新</button><hr>');
                             $('#update_body').html('<span style="font-size:1.3em">版本说明：</span>' + marked(data.body));
                         } else {
                             $('#update_txt').html('当前版本：<?php _e(self::_VERSION);?>，当前没有新版本');
@@ -136,7 +136,7 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
 		return false;
             }
         </script>
-		<?php
+<?php
         /** 公众号配置 */
         $wx_AppID = new Typecho_Widget_Helper_Form_Element_Text('wx_AppID', NULL, NULL, _t('APPID'),'请登录微信公众号获取');
 		
