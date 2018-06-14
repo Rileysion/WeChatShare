@@ -8,7 +8,7 @@
 
 > 1. 至[releases](https://github.com/fuzqing/WeChatShare/releases)中下载最新版本插件；
 > 2. 将下载的压缩包进行解压，文件夹重命名为`WeChatShare`，上传至`Typecho`插件目录中；
-> 3. 检查`WeChatShare`插件目录是否有读写权限，如果没有请增加；
+> 3. 检查`WeChatShare`插件目录文件是否有读写权限，如果没有请增加；
 > 4. 后台激活插件；
 > 5. 到插件配置页面填写插件配置信息。
 
