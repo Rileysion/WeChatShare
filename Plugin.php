@@ -82,11 +82,12 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
      */
     public static function config(Typecho_Widget_Helper_Form $form)
     {
-		$up_action_url = Typecho_Common::url('/index.php/action/wx-share?do=update-plugin', $options->siteUrl);
-		?>
-		<style>
+	$options = Typecho_Widget::widget('Widget_Options');
+	$up_action_url = Typecho_Common::url('/index.php/action/wx-share?do=update-plugin', $options->siteUrl);
+?>
+	<style>
 		#update_txt{font-size:1.2em;font-weight:700}#update_notice{display:block;text-align:center;margin:5px}#update_body{font-weight:700;color:#1abc9c}.message{padding:10px;background-color:#fff;box-shadow:2px 2px 5px #888;font-size:1pc;line-height:1.875rem}.bttn-default{color:#fff}.bttn,.bttn-md,.bttn-primary{color:#1d89ff}.bttn,.bttn-md{margin:0;padding:0;border-width:0;border-color:transparent;background:transparent;font-weight:400;cursor:pointer;position:relative}.bttn-md{padding:5px 9pt}.bttn-md,.bttn-slant{font-size:20px;font-family:inherit}.bttn-slant{margin:0;padding:0;border-width:0;border-color:transparent;font-weight:400;cursor:pointer;position:relative;padding:5px 9pt;z-index:0;border:none;border-radius:0;background:transparent;color:#1d89ff;-webkit-transition:color .3s cubic-bezier(0.02,0.01,0.47,1),-webkit-transform .3s cubic-bezier(0.02,0.01,0.47,1);transition:color .3s cubic-bezier(0.02,0.01,0.47,1),-webkit-transform .3s cubic-bezier(0.02,0.01,0.47,1);transition:color .3s cubic-bezier(0.02,0.01,0.47,1),transform .3s cubic-bezier(0.02,0.01,0.47,1);transition:color .3s cubic-bezier(0.02,0.01,0.47,1),transform .3s cubic-bezier(0.02,0.01,0.47,1),-webkit-transform .3s cubic-bezier(0.02,0.01,0.47,1)}.bttn-slant:before{width:100%;background:#fafafa;-webkit-transition:box-shadow .2s cubic-bezier(0.02,0.01,0.47,1);transition:box-shadow .2s cubic-bezier(0.02,0.01,0.47,1)}.bttn-slant:after,.bttn-slant:before{position:absolute;top:0;left:0;z-index:-1;height:100%;content:'';-webkit-transform:skewX(20deg);transform:skewX(20deg)}.bttn-slant:after{width:0;background:hsla(0,0%,98%,.3);opacity:0;-webkit-transition:opacity .2s cubic-bezier(0.02,0.01,0.47,1),width .15s cubic-bezier(0.02,0.01,0.47,1);transition:opacity .2s cubic-bezier(0.02,0.01,0.47,1),width .15s cubic-bezier(0.02,0.01,0.47,1)}.bttn-slant:focus,.bttn-slant:hover{-webkit-transform:translateX(5px);transform:translateX(5px)}.bttn-slant:focus:after,.bttn-slant:hover:after{width:5px;opacity:1}.bttn-slant:focus:before,.bttn-slant:hover:before{box-shadow:inset 0 -1px 0 #a7c3ff,inset 0 1px 0 #a7c3ff,inset -1px 0 0 #a7c3ff}.bttn-slant.bttn-md{font-size:20px;font-family:inherit;padding:5px 9pt}.bttn-slant.bttn-primary{color:#fff}.bttn-slant.bttn-primary:focus:before,.bttn-slant.bttn-primary:hover:before{box-shadow:inset 0 -1px 0 #006de3,inset 0 1px 0 #006de3,inset -1px 0 0 #006de3}.bttn-slant.bttn-primary:before{background:#1d89ff}.bttn-slant.bttn-primary:after{background:#006de3}
-		</style>
+	</style>
         <div class="message">
             <div id="update_txt">当前版本： <?php _e(self::_VERSION); ?>，正在检测版本更新...</div>
             <div id="update_notice"></div>
