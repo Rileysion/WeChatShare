@@ -50,12 +50,13 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
 
 	$zip = new ZipArchive; 
 	if ($zip->open($destination)) {
+		
 		$dir_name = __DIR__.'/'.$zip->getNameIndex(0);
+		
 		$zip->extractTo(__DIR__.'/');
+		
 		for($i = 1; $i < $zip->numFiles; $i++) {
-			//if(file_exists(__DIR__.'/'.basename($zip->getNameIndex($i)))) {
-			//	unlink(basename($zip->getNameIndex($i)));
-			//}
+
 			rename(__DIR__.'/'.$zip->getNameIndex($i),__DIR__.'/'.basename($zip->getNameIndex($i)));
 		}
 		if(!rmdir($dir_name)) {
