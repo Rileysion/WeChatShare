@@ -40,7 +40,7 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
      * 插件版本号
      * @var string
      */
-    const _VERSION = '0.0.4';
+    const _VERSION = '1.0.0';
     /**
      * 激活插件方法,如果激活失败,直接抛出异常
      *
