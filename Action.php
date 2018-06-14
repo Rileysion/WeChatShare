@@ -67,7 +67,7 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
 		 
 		} else {
 			
-			echo '在线更新失败，请手工下载更新。'.<br/>.'<a href="'.$url.'" target="_blank">下载地址</a>';
+			echo '在线更新失败，请手工下载更新。<br/><a href="'.$url.'" target="_blank">下载地址</a>';
 		}
 		return;
 	}
