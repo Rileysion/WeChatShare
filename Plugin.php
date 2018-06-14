@@ -129,10 +129,11 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
                 var zipball_url =  $("#update-plugin").attr('zipball_url');
                 $.post("<?php echo $up_action_url;?>", {zipball_url:zipball_url} ,success,"");
                 function  success(data){
-					$('#update_txt').html('');
-                    $('#update_notice').html(data);
+		    $('#update_txt').html('');
+                    $('#update_notice').html('<span style="font-size:1.4em;color:#1d89f;font-weight:700;">'+data+'</span>');
+
                 } 
-				return false;
+		return false;
             }
         </script>
 		<?php
