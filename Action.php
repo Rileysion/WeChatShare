@@ -33,12 +33,15 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
 		//若给定url自动跳转到新的url,有了下面参数可自动获取新url内容：302跳转
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		//设置cURL允许执行的最长秒数。
-		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 20);
 		curl_setopt($ch, CURLOPT_REFERER, $url);
 		$response = curl_exec($ch);
 		//获取请求返回码，请求成功返回200
 		$code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
 		curl_close($ch);
+		if($code != '200') {
+			echo '在线更新失败，请手工下载更新。<br/><a href="'.$url.'" target="_blank">下载地址</a>';
+		}
 		$destination = __DIR__.'/wechatshare.zip';
 		$file = fopen($destination,"w+");
 		//写入文件
@@ -46,7 +49,7 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
 		fclose($file);
 		
 		$zip = new ZipArchive; 
-		if ($zip->open($destination)) { 
+		if ($zip->open($destination)) {
 			$dir_name = __DIR__.'/'.$zip->getNameIndex(0);
 			$zip->extractTo(__DIR__.'/');
 			for($i = 1; $i < $zip->numFiles; $i++) {
