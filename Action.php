@@ -14,83 +14,81 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
         $this->init();
         $this->on($this->request->is('do=insert'))->insertWxShare();
         $this->on($this->request->is('do=ajax-get'))->ajaxGetWxShare();
-		$this->on($this->request->is('do=update-plugin'))->updatePlugin();
+        $this->on($this->request->is('do=update-plugin'))->updatePlugin();
     }
 	
     /*
-     * 编辑或者新增文章的时候把微信分享的数据插入到wx_share表
-     */
+    * 更新插件文件
+    */
     public function updatePlugin()
     {
-		Typecho_Widget::widget('Widget_User')->to($user);
-		if($user->group != 'administrator') {
-			echo 'f**k，别瞎鸡巴搞！';
-			return;
-		}
-		
-		$url = trim($_POST['zipball_url']);
-		$ch = curl_init();
-		//设置User-Agent, Github文档要求
-		$header = ['User-Agent: WeChatShare'];
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		//如果成功只将结果返回，不自动输出任何内容。
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		//若给定url自动跳转到新的url,有了下面参数可自动获取新url内容：302跳转
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		//设置cURL允许执行的最长秒数。
-		curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-		curl_setopt($ch, CURLOPT_REFERER, $url);
-		$response = curl_exec($ch);
-		//获取请求返回码，请求成功返回200
-		$code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-		curl_close($ch);
-		if($code != '200') {
-			echo '在线更新失败，请手工下载更新。<br/><a href="'.$url.'" target="_blank">下载地址</a>';
-		}
-		$destination = __DIR__.'/wechatshare.zip';
-		$file = fopen($destination,"w+");
-		//写入文件
-		fputs($file,$response);
-		fclose($file);
+        Typecho_Widget::widget('Widget_User')->to($user);
+        if($user->group != 'administrator') {
+            throw new Typecho_Plugin_Exception(_t('f**k,别瞎jb搞'));
+        }
 
-		$zip = new ZipArchive; 
-		if ($zip->open($destination)) {
-			
-			$dir_name = __DIR__.'/'.$zip->getNameIndex(0);
-			
-			$zip->extractTo(__DIR__.'/');
-			
-			for($i = 1; $i < $zip->numFiles; $i++) {
+        $url = trim($_POST['zipball_url']);
+        $ch = curl_init();
+        //设置User-Agent, Github文档要求
+        $header = ['User-Agent: WeChatShare'];
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        //如果成功只将结果返回，不自动输出任何内容。
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        //若给定url自动跳转到新的url,有了下面参数可自动获取新url内容：302跳转
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        //设置cURL允许执行的最长秒数。
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        curl_setopt($ch, CURLOPT_REFERER, $url);
+        $response = curl_exec($ch);
+        //获取请求返回码，请求成功返回200
+        $code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if($code != '200') {
+            _e('在线更新失败，请手工下载更新。<br/><a href="'.$url.'" target="_blank">下载地址</a>');
+        }
+        $destination = __DIR__.'/wechatshare.zip';
+        $file = fopen($destination,"w+");
+        //写入文件
+        fputs($file,$response);
+        fclose($file);
 
-				rename(__DIR__.'/'.$zip->getNameIndex($i),__DIR__.'/'.basename($zip->getNameIndex($i)));
-			}
-			if(!rmdir($dir_name)) {
+        $zip = new ZipArchive; 
+        if ($zip->open($destination)) {
 
-				echo '删除文件夹失败，请手工删除。';
-			}
-			if(!unlink($destination)) {
+            $dir_name = __DIR__.'/'.$zip->getNameIndex(0);
 
-				echo '删除压缩包失败，请手工删除。';
-			}
-			echo '更新成功！';
+            $zip->extractTo(__DIR__.'/');
 
-		} else {
+            for($i = 1; $i < $zip->numFiles; $i++) {
 
-			echo '在线更新失败，请手工下载更新。<br/><a href="'.$url.'" target="_blank">下载地址</a>';
-		}
-		return;
-	}
+                rename(__DIR__.'/'.$zip->getNameIndex($i),__DIR__.'/'.basename($zip->getNameIndex($i)));
+            }
+            if(!rmdir($dir_name)) {
+
+                _e('删除文件夹失败，请手工删除。');
+            }
+            if(!unlink($destination)) {
+
+                _e('删除压缩包失败，请手工删除。');
+            }
+            _e('更新成功！');
+
+        } else {
+
+            _e('在线更新失败，请手工下载更新。<br/><a href="'.$url.'" target="_blank">下载地址</a>');
+        }
+        return;
+    }
     /*
-     * 编辑或者新增文章的时候把微信分享的数据插入到wx_share表
-     */
+    * 编辑或者新增文章的时候把微信分享的数据插入到wx_share表
+    */
     public function insertWxShare()
     {
-		Typecho_Widget::widget('Widget_User')->to($user);
-		if($user->group != 'administrator') {
-			echo 'f**k，别瞎鸡巴搞！';
-			return;
-		}
+        Typecho_Widget::widget('Widget_User')->to($user);
+        if($user->group != 'administrator') {
+            throw new Typecho_Plugin_Exception(_t('f**k,别瞎jb搞'));
+        }
         $data = [];
         //接收数据
         $data['wx_title'] = trim($_POST['wx_title']);
@@ -113,8 +111,8 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
     }
 
     /**
-     * 前台ajax获取微信分享信息
-     */
+    * 前台ajax获取微信分享信息
+    */
     public function ajaxGetWxShare()
     {
 
@@ -200,8 +198,8 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
     }
 
     /*
-     * 获取微信分享配置SignPackage值
-     */
+    * 获取微信分享配置SignPackage值
+    */
     public function getSignPackage($url) {
 
         $this->getJsApiTicket();
@@ -225,8 +223,8 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
     }
 
     /*
-     * 生成随机字符串
-     */
+    * 生成随机字符串
+    */
     private function createNonceStr($length = 16) {
 
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -235,7 +233,7 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
 
         for ($i = 0; $i < $length; $i++) {
 
-            $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+        $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
 
         }
 
@@ -244,8 +242,8 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
 
 
     /*
-     * 获取JsApiTicket,如果过时就重新获取
-     */
+    * 获取JsApiTicket,如果过时就重新获取
+    */
     private function getJsApiTicket() {
 
         if ($this->wx_config->jsapi_ticket_expire_time < time()) {
@@ -254,11 +252,11 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
 
             $url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token='.$this->wx_config->access_token;
 
-			$res = json_decode($this->httpGet($url));
+            $res = json_decode($this->httpGet($url));
 
-			$ticket = $res->ticket;
+            $ticket = $res->ticket;
 
-			if ($ticket) {
+            if ($ticket) {
 
                 $this->wx_config->jsapi_ticket_expire_time = time() + 7000;
 
@@ -266,12 +264,12 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
 
                 $this->updateWxConfig();
             }
-		}
+        }
     }
 
     /**
-     * 获取AccessToken,如果过时就重新获取
-     */
+    * 获取AccessToken,如果过时就重新获取
+    */
     private function getAccessToken() {
 
         if ($this->wx_config->access_token_expire_time < time()) {
@@ -293,8 +291,8 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
     }
 
     /*
-     *服务器与微信服务器通信
-     */
+    *服务器与微信服务器通信
+    */
     private function httpGet($url) {
 
         $curl = curl_init();
@@ -319,8 +317,8 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
     }
 
     /*
-     * 获取微信插件的配置
-     */
+    * 获取微信插件的配置
+    */
 
     public function  getWxConfig()
     {
@@ -345,8 +343,8 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
     }
 
     /*
-     * 更新微信插件的配置
-     */
+    * 更新微信插件的配置
+    */
     public function updateWxConfig()
     {
 
@@ -356,8 +354,8 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
 
     }
     /*
-     * 初始化
-     */
+    * 初始化
+    */
     public function init()
     {
         $this->getWxConfig();
