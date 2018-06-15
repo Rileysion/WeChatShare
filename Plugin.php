@@ -410,7 +410,7 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
 
             new WX_Custom_Share().init();
 			console.log("%c", "padding:100px 200px;line-height:220px;background:url('https://hiphotos.baidu.com/feed/pic/item/b999a9014c086e06606a9d0009087bf40bd1cbbf.jpg') no-repeat;");
-			console.log("%c WeChatShare v1.0.1  %c By Fuzqing https://huangweitong.com ","color:#444;background:#eee;padding:5px 0;","color:#eee;background:#444;padding:5px 0;");
+			console.log("%c WeChatShare v1.0.0  %c By Fuzqing https://huangweitong.com ","color:#444;background:#eee;padding:5px 0;","color:#eee;background:#444;padding:5px 0;");
 SCRIPT;
 
         file_put_contents('usr/plugins/WeChatShare/wx_share.js',$wx_script);
