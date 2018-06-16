@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  *
  * @package WeChatShare
  * @author Fuzqing
- * @version 1.0.0
+ * @version 1.0.3
  * @link https://huangweitong.com
  *
  *
@@ -40,7 +40,7 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
      * 插件版本号
      * @var string
      */
-    const _VERSION = '1.0.0';
+    const _VERSION = '1.0.3';
     /**
      * 激活插件方法,如果激活失败,直接抛出异常
      *
@@ -326,6 +326,8 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
         $signature_url =$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
         $signature_url = preg_replace('/\?_pjax=.*/','',$signature_url);
+        
+        $version = self::_VERSION;
 
         $wx_script = <<<SCRIPT
 
@@ -336,7 +338,7 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
                 var formData = {
                     title: '{$archive->title}',
                     parameter_type: '{$archive->parameter->type}',
-				      cid: '{$archive->cid}',
+				    cid: '{$archive->cid}',
                     signature_url: '{$signature_url}'
                 };
 
@@ -410,15 +412,14 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
 
             new WX_Custom_Share().init();
 			console.log("%c", "padding:100px 200px;line-height:220px;background:url('https://hiphotos.baidu.com/feed/pic/item/b999a9014c086e06606a9d0009087bf40bd1cbbf.jpg') no-repeat;");
-			console.log("%c WeChatShare v1.0.0  %c By Fuzqing https://huangweitong.com ","color:#444;background:#eee;padding:5px 0;","color:#eee;background:#444;padding:5px 0;");
+			console.log("%c WeChatShare v{$version}  %c By Fuzqing https://huangweitong.com ","color:#444;background:#eee;padding:5px 0;","color:#eee;background:#444;padding:5px 0;");
 SCRIPT;
 
         file_put_contents('usr/plugins/WeChatShare/wx_share.js',$wx_script);
 		
         $wx_script_js = Typecho_Common::url('/usr/plugins/WeChatShare/wx_share.js', $options->siteUrl);
 		
-        echo '<script type="text/javascript" src="'.$wx_script_js.'?_t='.time().'"></script>';
-
+        echo '<script type="text/javascript">'.$wx_script.'</script>';
         
     }
 	
