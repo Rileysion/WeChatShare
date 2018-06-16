@@ -101,8 +101,16 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
         $cid= !empty(trim($_POST['cid'])) ? trim($_POST['cid']) :'';
 
         if($cid) {
-            /** 更新数据 */
-            $this->db->query($this->db->update($this->prefix.'wx_share')->rows($data)->where('cid=?',$cid));
+            //取出数据
+            $wx_share_data= $this->db->fetchAll($this->db->select()->from($this->prefix.'wx_share')->where('cid = ?', $cid));
+            if($wx_share_data) {
+                /** 更新数据 */
+                $this->db->query($this->db->update($this->prefix.'wx_share')->rows($data)->where('cid=?',$cid)); 
+            } else {
+                /** 插入数据 */
+                $this->db->query($this->db->insert($this->prefix.'wx_share')->rows($data));               
+            }
+
         }else {
             /** 插入数据 */
             $this->db->query($this->db->insert($this->prefix.'wx_share')->rows($data));
