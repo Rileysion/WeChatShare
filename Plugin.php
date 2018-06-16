@@ -323,8 +323,10 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
 
         $ajax_wx_share_url = Typecho_Common::url('/index.php/action/wx-share?do=ajax-get', $options->siteUrl);
 
-        $signature_url =$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-
+        $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';  
+        
+        $signature_url = $http_type . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	// pjax
         $signature_url = preg_replace('/\?_pjax=.*/','',$signature_url);
         
         $version = self::_VERSION;
