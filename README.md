@@ -5,6 +5,10 @@
 > 1. 使用此插件可方便地自定义微信和QQ分享链接中的标题、描述、小图标和URL，让你的分享链接不再单调；
 > 2. 建议使用1.2版本的Typecho
 
+## 本人博客环境
+> 1. 军哥的lnmp一键包，PHP7.1，开启了curl扩展
+> 2. Typecho 版本 1.2 (18.1.29)
+
 ## 安装方法
 
 > 1. 至[releases](https://github.com/fuzqing/WeChatShare/releases)中下载最新版本插件；
