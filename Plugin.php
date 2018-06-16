@@ -163,7 +163,7 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
 	
         $form->addInput($jsapi_ticket_expire_time);
 		
-        $jsapi_ticket = new Typecho_Widget_Helper_Form_Element_Hidden('jsapi_ticket', NULL, NULL, _t('JsapiTicket'),'隐藏');
+        $jsapi_ticket = new Typecho_Widget_Helper_Form_Element_Text('jsapi_ticket', NULL, NULL, _t('JsapiTicket'),'方便出错调试，不用填写自动更新');
 		
         $form->addInput($jsapi_ticket);
 	}
