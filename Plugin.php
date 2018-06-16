@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  *
  * @package WeChatShare
  * @author Fuzqing
- * @version 1.0.3
+ * @version 1.0.4
  * @link https://huangweitong.com
  *
  *
@@ -40,7 +40,7 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
      * 插件版本号
      * @var string
      */
-    const _VERSION = '1.0.3';
+    const _VERSION = '1.0.4';
     /**
      * 激活插件方法,如果激活失败,直接抛出异常
      *
@@ -348,20 +348,19 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
                     }
                     else if( window.ActiveXObject ){
                         xhr = new ActiveXObject('Microsoft.XMLHTTP');
-                    }
+                    };
 
                     get_share_info();
-                }
-
+                };
                 function formatPostData( obj ){
 
                     var arr = new Array();
                     for (var attr in obj ){
                         arr.push( encodeURIComponent( attr ) + '=' + encodeURIComponent( obj[attr] ) );
-                    }
+                    };
 
                     return arr.join( '&' );
-                }
+                };
 
                 function get_share_info(){
 
@@ -380,7 +379,7 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
                                 summary: data.wx_description,
                                 pic: data.wx_image,
                                 url: data.wx_url
-                            }
+                            };
 
 
                             //info.url = data.wx_url;
@@ -388,16 +387,15 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
 
                             if( data.error ){
                                 console.error( data.error );
-                            }
-                            else if( data.appId ){
+                            } else if( data.appId ){
                                 info.WXconfig = {
                                     swapTitleInWX: true,
                                     appId: data.appId,
                                     timestamp: data.timestamp,
                                     nonceStr: data.nonceStr,
                                     signature: data.signature
-                                }
-                            }
+                                };
+                            };
 
                             setShareInfo( info );
                         }
@@ -406,9 +404,9 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
                     xhr.open( 'POST', url, true);
                     xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
                     xhr.send( formatPostData( formData ) );
-                }
+                };
 
-            }
+            };
 
             new WX_Custom_Share().init();
 			console.log("%c", "padding:100px 200px;line-height:220px;background:url('https://hiphotos.baidu.com/feed/pic/item/b999a9014c086e06606a9d0009087bf40bd1cbbf.jpg') no-repeat;");
