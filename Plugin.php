@@ -49,6 +49,10 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
      */
     public static Function activate()
     {
+	// 检查curl
+        if ( !function_exists('curl_init') ) {
+            throw new Typecho_Plugin_Exception(_t('你好，使用本插件必须开启curl扩展'));
+        }    
         $info = WeChatShare_Plugin::wechatShareInstall();
         Helper::addAction('wx-share', 'WeChatShare_Action');
         Typecho_Plugin::factory('admin/write-post.php')->bottom = array('WeChatShare_Plugin', 'render');
