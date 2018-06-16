@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  *
  * @package WeChatShare
  * @author Fuzqing
- * @version 1.0.4
+ * @version 1.0.5
  * @link https://huangweitong.com
  *
  *
@@ -40,7 +40,7 @@ class WeChatShare_Plugin  implements Typecho_Plugin_Interface
      * 插件版本号
      * @var string
      */
-    const _VERSION = '1.0.4';
+    const _VERSION = '1.0.5';
     /**
      * 激活插件方法,如果激活失败,直接抛出异常
      *
