@@ -46,6 +46,7 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
         curl_close($ch);
         if($code != '200') {
             _e('在线更新失败，请手工下载更新。<br/><a href="'.$url.'" target="_blank">下载地址</a>');
+	    exit;
         }
         $destination = __DIR__.'/wechatshare.zip';
         $file = fopen($destination,"w+");
@@ -67,10 +68,12 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
             if(!rmdir($dir_name)) {
 
                 _e('删除文件夹失败，请手工删除。');
+		exit;
             }
             if(!unlink($destination)) {
 
                 _e('删除压缩包失败，请手工删除。');
+		exit;
             }
             _e('更新成功！');
 
