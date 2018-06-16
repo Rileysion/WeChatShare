@@ -8,6 +8,7 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
     private $wx_config;
     private $system_options;
     private $widget_options;
+    private $user;
 
     public function action()
     {
@@ -22,8 +23,7 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
     */
     public function updatePlugin()
     {
-        Typecho_Widget::widget('Widget_User')->to($user);
-        if($user->group != 'administrator') {
+        if($this->user->group != 'administrator') {
             throw new Typecho_Plugin_Exception(_t('f**k,别瞎jb搞'));
         }
 
@@ -85,8 +85,7 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
     */
     public function insertWxShare()
     {
-        Typecho_Widget::widget('Widget_User')->to($user);
-        if($user->group != 'administrator') {
+        if($this->user->group != 'administrator') {
             throw new Typecho_Plugin_Exception(_t('f**k,别瞎jb搞'));
         }
         $data = [];
@@ -365,9 +364,10 @@ class WeChatShare_Action extends Typecho_Widget implements Widget_Interface_Do
         $this->prefix = $this->db->getPrefix();
 
         $this->widget_options = Typecho_Widget::widget('Widget_Options');
+        
+        $this->user = Typecho_Widget::widget('Widget_User');
 
         $this->system_options = Helper::options();
 
     }
-
 }
